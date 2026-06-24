@@ -1,5 +1,5 @@
 const express=require('express');
-
+const ejs=require('ejs')
 
 
 
@@ -7,15 +7,12 @@ const app=express();
 
 
 
+//setup ejs
+app.set('view engine','ejs');
+app.set('views','views')
 
 
-app.get('/about',(req,res)=>{
-    res.send('welcome to about page')
-})
 
-app.get('/contact',(req,res)=>{
-    res.send('welcome to contact page')
-})
 
 const homeRoute=require('./src/router/homeRoute')
 app.use(homeRoute)
