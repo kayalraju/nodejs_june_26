@@ -17,7 +17,9 @@ class HomeController {
   }
 
   about(req, res) {
-    res.render('about');
+    res.render('about',{
+        title:'about page'
+    });
   }
 }
 

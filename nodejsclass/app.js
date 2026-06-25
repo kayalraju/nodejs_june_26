@@ -11,7 +11,8 @@ const app=express();
 app.set('view engine','ejs');
 app.set('views','views')
 
-
+//create a static folder
+app.use(express.static('public'))
 
 
 const homeRoute=require('./src/router/homeRoute')
