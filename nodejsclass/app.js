@@ -10,6 +10,8 @@ DBConnect()
 app.set('view engine','ejs');
 app.set('views','views')
 
+app.use(express.json())
+//app.use(express.urlencoded({extended:true}))
 //create a static folder
 app.use(express.static('public'))
 
@@ -17,6 +19,8 @@ app.use(express.static('public'))
 const homeRoute=require('./src/router/homeRoute')
 app.use(homeRoute)
 
+const studentRoute=require('./src/router/apis/student.api')
+app.use('/api',studentRoute)
 
 const Port=process.env.PORT || 3009
 
