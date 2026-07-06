@@ -1,10 +1,25 @@
 const Student = require("../../models/student.model");
+const StatusCode = require("../../utils/statusCode");
 
 class StudentController {
   async createStudent(req, res) {
     //console.log(req.body)
     try {
       const { name, email, phone, city, state, country } = req.body;
+      if(!name || !email || !phone || !city || !state || !country){
+        return res.status(StatusCode.BAD_REQUEST).json({
+          status: false,
+          message: "All fields are required",
+        });
+      }
+
+      const existingStudent = await Student.findOne({ email: email });
+      if (existingStudent) {
+        return res.status(StatusCode.BAD_REQUEST).json({
+          status: false,
+          message: "Student with this email already exists",
+        });
+      }
 
       const studentdata = new Student({
         name: name,
@@ -18,13 +33,13 @@ class StudentController {
       const data = await studentdata.save();
 
       if (data) {
-        return res.status(201).json({
+        return res.status(StatusCode.CREATED).json({
           status: true,
           message: "Student created successfully",
           data: data,
         });
       } else {
-        return res.status(400).json({
+        return res.status(StatusCode.BAD_REQUEST).json({
           status: false,
           message: "Student not created",
           data: null,
@@ -32,7 +47,7 @@ class StudentController {
       }
     } catch (error) {
       console.log(error);
-      return res.status(500).json({
+      return res.status(StatusCode.SERVER_ERROR).json({
         status: false,
         message: error.message,
       });
@@ -40,23 +55,97 @@ class StudentController {
   }
 
   async getAllStudents(req, res) {
-    try{
-      const studata=  await Student.find()
-      if(!studata || studata.length==0){
-        return res.status(404).json({
-          status:false,
-          message:"No student found",
-          data:null
-        })
+    try {
+      const studata = await Student.find();
+      if (!studata || studata.length == 0) {
+        return res.status(StatusCode.NOT_FOUND).json({
+          status: false,
+          message: "No student found",
+          data: null,
+        });
       }
-      return res.status(200).json({
-        status:true,
-        message:"All students data",
-        total:studata.length,
-        data:studata
-      })
-    }catch(error){
-      return res.status(500).json({
+      return res.status(StatusCode.OK).json({
+        status: true,
+        message: "All students data",
+        total: studata.length,
+        data: studata,
+      });
+    } catch (error) {
+      return res.status(StatusCode.SERVER_ERROR).json({
+        status: false,
+        message: error.message,
+      });
+    }
+  }
+
+  async getStudentById(req, res) {
+    try {
+      const id = req.params.id;
+      const studata = await Student.findById(id);
+      if (!studata) {
+        return res.status(StatusCode.NOT_FOUND).json({
+          status: false,
+          message: "No student found",
+          data: null,
+        });
+      }
+      return res.status(StatusCode.OK).json({
+        status: true,
+        data: studata,
+      });
+    } catch (error) {
+      return res.status(StatusCode.SERVER_ERROR).json({
+        status: false,
+        message: error.message,
+      });
+    }
+  }
+
+  async updateStudent(req, res) {
+    try {
+      const id = req.params.id;
+      const { name, email, phone, city, state, country } = req.body;
+
+      const studata = await Student.findByIdAndUpdate(
+        id,
+        { name, email, phone, city, state, country },
+        { new: true },
+      );
+      if (!studata) {
+        return res.status(StatusCode.NOT_FOUND).json({
+          status: false,
+          message: "No student found",
+          data: null,
+        });
+      }
+      return res.status(StatusCode.OK).json({
+        status: true,
+        message: "Student updated successfully",
+      });
+    } catch (error) {
+      return res.status(StatusCode.SERVER_ERROR).json({
+        status: false,
+        message: error.message,
+      });
+    }
+  }
+
+  async deleteStudent(req, res) {
+    try {
+      const id = req.params.id;
+      const studata = await Student.findByIdAndDelete(id);
+      if (!studata) {
+        return res.status(StatusCode.NOT_FOUND).json({
+          status: false,
+          message: "No student found",
+        });
+      }
+      return res.status(StatusCode.OK).json({
+        status: true,
+        message: "Student deleted successfully",
+      });
+    } catch (error) {
+      return res.status(StatusCode.SERVER_ERROR).json({
         status: false,
         message: error.message,
       });
