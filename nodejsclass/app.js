@@ -11,7 +11,7 @@ app.set('view engine','ejs');
 app.set('views','views')
 
 app.use(express.json())
-//app.use(express.urlencoded({extended:true}))
+app.use(express.urlencoded({extended:true}))
 //create a static folder
 app.use(express.static('public'))
 
@@ -20,7 +20,9 @@ const homeRoute=require('./src/router/homeRoute')
 app.use(homeRoute)
 
 const studentRoute=require('./src/router/apis/student.api')
+const studentejsRoute=require('./src/router/studentejsroute')
 app.use('/api',studentRoute)
+app.use(studentejsRoute)
 
 const Port=process.env.PORT || 3009
 
