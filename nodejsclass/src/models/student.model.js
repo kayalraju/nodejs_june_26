@@ -35,6 +35,10 @@ const StudentSchema = new Schema(
       required: [true, "Country is required"],
       trim: true,
     },
+    image: {
+      type: String,
+      default:"hello.jpg",
+    },
   },
   {
     timestamps: true,

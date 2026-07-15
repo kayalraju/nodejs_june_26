@@ -4,6 +4,8 @@ const StatusCode = require("../../utils/statusCode");
 class StudentController {
   async createStudent(req, res) {
     //console.log(req.body)
+
+    //console.log(req.file);
     try {
       const { name, email, phone, city, state, country } = req.body;
       if(!name || !email || !phone || !city || !state || !country){
@@ -30,7 +32,12 @@ class StudentController {
         country: country,
       });
 
+       if(req.file){
+        studentdata.image=req.file.path
+      }
       const data = await studentdata.save();
+
+     
 
       if (data) {
         return res.status(StatusCode.CREATED).json({

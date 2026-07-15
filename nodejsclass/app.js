@@ -2,6 +2,7 @@ require('dotenv').config();
 const express=require('express');
 const ejs=require('ejs')
 const DBConnect=require('./src/config/dbcon')
+const path=require('path')
 const app=express();
 DBConnect()
 
@@ -14,6 +15,11 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 //create a static folder
 app.use(express.static('public'))
+
+//static folder
+
+app.use('/uploads',express.static(path.join(__dirname,'uploads')))
+app.use('/uploads',express.static('uploads')); 
 
 
 const homeRoute=require('./src/router/homeRoute')
