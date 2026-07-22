@@ -3,10 +3,12 @@ const express=require('express');
 const ejs=require('ejs')
 const DBConnect=require('./src/config/dbcon')
 const path=require('path')
+const cors=require('cors')
 const app=express();
 DBConnect()
 
 
+app.use(cors())
 //setup ejs
 app.set('view engine','ejs');
 app.set('views','views')
