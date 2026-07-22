@@ -1,22 +1,21 @@
 const Student = require("../../models/student.model");
 const StatusCode = require("../../utils/statusCode");
+const fs = require("fs");
 
 class StudentController {
   async createStudent(req, res) {
-    //console.log(req.body)
-
-    //console.log(req.file);
     try {
       const { name, email, phone, city, state, country } = req.body;
-      if(!name || !email || !phone || !city || !state || !country){
-        return res.status(StatusCode.BAD_REQUEST).json({
-          status: false,
-          message: "All fields are required",
-        });
-      }
 
       const existingStudent = await Student.findOne({ email: email });
       if (existingStudent) {
+        // Delete uploaded image
+        if (req.file) {
+          fs.unlink(req.file.path, (err) => {
+            if (err) console.log(err);
+          });
+        }
+
         return res.status(StatusCode.BAD_REQUEST).json({
           status: false,
           message: "Student with this email already exists",
@@ -32,13 +31,10 @@ class StudentController {
         country: country,
       });
 
-       if(req.file){
-        studentdata.image=req.file.path
+      if (req.file) {
+        studentdata.image = req.file.path;
       }
       const data = await studentdata.save();
-
-     
-
       if (data) {
         return res.status(StatusCode.CREATED).json({
           status: true,
@@ -53,7 +49,6 @@ class StudentController {
         });
       }
     } catch (error) {
-      console.log(error);
       return res.status(StatusCode.SERVER_ERROR).json({
         status: false,
         message: error.message,
