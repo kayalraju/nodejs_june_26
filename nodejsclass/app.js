@@ -24,6 +24,9 @@ app.use('/uploads',express.static(path.join(__dirname,'uploads')))
 app.use('/uploads',express.static('uploads')); 
 
 
+const authRouter=require('./src/router/apis/authRouter')
+app.use('/api',authRouter)
+
 const homeRoute=require('./src/router/homeRoute')
 app.use(homeRoute)
 
