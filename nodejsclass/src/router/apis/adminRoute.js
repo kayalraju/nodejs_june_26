@@ -2,19 +2,15 @@ const express = require("express");
 const router = express.Router();
 const Validation = require("../../validate/index");
 const UserSchemaValidation = require("../../validate/userSchema");
-const authController = require("../../controller/Apis/authController");
+const adminController = require("../../controller/Apis/AdminController");
 const AuthMiddleware = require("../../middleware/authmiddleware");
 
 
+
 router.post(
-  "/signup",
-  Validation.validate(UserSchemaValidation.signup),
-  authController.signup,
-);
-router.post(
-  "/login",
+  "/login/create",
   Validation.validate(UserSchemaValidation.login),
-  authController.login,
+  adminController.login,
 );
 
 
@@ -22,7 +18,7 @@ router.post(
 router.get(
   "/dashboard",
   AuthMiddleware.verifyToken,
-  authController.dashboard,
+  adminController.dashboard,
 );
 
 

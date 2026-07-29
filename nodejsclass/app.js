@@ -35,6 +35,10 @@ const studentejsRoute=require('./src/router/studentejsroute')
 app.use('/api',studentRoute)
 app.use(studentejsRoute)
 
+//admin route
+const adminRoute=require('./src/router/apis/adminRoute')
+app.use('/admin/api',adminRoute)
+
 const Port=process.env.PORT || 3009
 
 app.listen(Port,()=>{
