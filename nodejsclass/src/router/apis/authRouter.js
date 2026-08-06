@@ -11,6 +11,8 @@ router.post(
   Validation.validate(UserSchemaValidation.signup),
   authController.signup,
 );
+
+router.post('/verify',authController.verify)
 router.post(
   "/login",
   Validation.validate(UserSchemaValidation.login),
