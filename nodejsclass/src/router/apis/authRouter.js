@@ -18,6 +18,15 @@ router.post(
   Validation.validate(UserSchemaValidation.login),
   authController.login,
 );
+router.post(
+  "/reset-password/link",
+  Validation.validate(UserSchemaValidation.forgotPassword),
+  authController.resetPasswordLink,
+);
+router.post(
+  "/reset-password/:id/:token",
+  authController.resetPassword,
+);
 
 
 
