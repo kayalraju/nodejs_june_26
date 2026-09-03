@@ -35,25 +35,28 @@ app.use(express.static('public'))
 app.use('/uploads',express.static(path.join(__dirname,'uploads')))
 app.use('/uploads',express.static('uploads')); 
 
+//define router
 
+const router=require('./src/router/index')
+app.use(router)
 
-const AuthEjsRouter=require('./src/router/authejsRoute')
-app.use(AuthEjsRouter)
+// const AuthEjsRouter=require('./src/router/authejsRoute')
+// app.use(AuthEjsRouter)
 
-const authRouter=require('./src/router/apis/authRouter')
-app.use('/api',authRouter)
+// const authRouter=require('./src/router/apis/authRouter')
+// app.use('/api',authRouter)
 
-const homeRoute=require('./src/router/homeRoute')
-app.use(homeRoute)
+// const homeRoute=require('./src/router/homeRoute')
+// app.use(homeRoute)
 
-const studentRoute=require('./src/router/apis/student.api')
-const studentejsRoute=require('./src/router/studentejsroute')
-app.use('/api',studentRoute)
-app.use(studentejsRoute)
+// const studentRoute=require('./src/router/apis/student.api')
+// const studentejsRoute=require('./src/router/studentejsroute')
+// app.use('/api',studentRoute)
+// app.use(studentejsRoute)
 
-//admin route
-const adminRoute=require('./src/router/apis/adminRoute')
-app.use('/admin/api',adminRoute)
+// //admin route
+// const adminRoute=require('./src/router/apis/adminRoute')
+// app.use('/admin/api',adminRoute)
 
 const Port=process.env.PORT || 3009
 

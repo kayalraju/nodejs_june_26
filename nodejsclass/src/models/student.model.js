@@ -1,6 +1,31 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+
+// const address={
+//   street: {
+//     type: String,
+//     required: [true, "Street is required"],
+//     trim: true,
+//   },
+//   city: {
+//     type: String,
+//     required: [true, "City is required"],
+//     trim: true,
+//   },
+//   state: {
+//     type: String,
+//     required: [true, "State is required"],
+//     trim: true,
+//   },
+//   country: {
+//     type: String,
+//     required: [true, "Country is required"],
+//     trim: true,
+//   },
+
+// }
+
 const StudentSchema = new Schema(
   {
     name: {
@@ -39,11 +64,38 @@ const StudentSchema = new Schema(
       type: String,
       default:"hello.jpg",
     },
+    //embeded model
+  // address:{
+  //   street: {
+  //     type: String,
+  //     required: [true, "Street is required"],
+  //     trim: true,
+  //   },
+  //   city: {
+  //     type: String,
+  //     required: [true, "City is required"],
+  //     trim: true,
+  //   },
+  //   state: {
+  //     type: String,
+  //     required: [true, "State is required"],
+  //     trim: true,
+  //   },
+  //   country: {
+  //     type: String,
+  //     required: [true, "Country is required"],
+  //     trim: true,
+  //   },
+    
+  // }
   },
+  
   {
     timestamps: true,
   },
 );
+
+StudentSchema.index({ name: 1 }, { unique: true });
 
 const StudentModel = mongoose.model("student", StudentSchema);
 
