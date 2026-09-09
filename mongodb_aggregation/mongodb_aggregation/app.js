@@ -15,6 +15,8 @@ app.use(express.json())
 
 const employeeRouter = require('./src/router/employee.router')
 app.use("/api", employeeRouter)
+const lookupRoute=require('./src/router/lookupRoute')
+app.use("/api", lookupRoute)
 
 const PORT = process.env.PORT || 3007;
 app.listen(PORT, ()=>{
