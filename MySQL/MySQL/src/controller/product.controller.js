@@ -5,12 +5,12 @@ class ProductController{
     async CreateProduct(req,res){
         try{
             //console.log(req.body)
-            const {name,price,description}=req.body
-            const product=await Product.create({name,price,description})
+            const {name,email,phone}=req.body
+            const user=await Product.create({name,email,phone})
             res.status(201).json({
                 success:true,
-                message:"Product created successfully",
-                data:product
+                message:"user created successfully",
+                data:user
             })
 
         }catch(err){
@@ -24,11 +24,10 @@ class ProductController{
         try{
             //console.log(req.body)
            
-            const product=await Product.findAll()
+            const user=await User.findAll()
             res.status(201).json({
                 success:true,
-                message:"Product fetched successfully",
-                data:product
+                data:user
             })
 
         }catch(err){

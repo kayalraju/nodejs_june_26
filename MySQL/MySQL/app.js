@@ -9,9 +9,11 @@ app.use(express.json());
 //app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 // Routes
-
 const productRoute=require('./src/router/Product.route')
 app.use(productRoute)
+
+const userRoute=require('./src/router/user.route')
+app.use(userRoute)
 
 const PORT = process.env.PORT;
 sequelize.authenticate()
