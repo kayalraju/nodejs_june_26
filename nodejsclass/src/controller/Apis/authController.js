@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const verifyEmailOTP = require("../../utils/sendMail");
 const Otp=require('../../models/otp')
 const transporter = require("../../config/mailconfig");
+const logger = require("../../utils/logger");
 
 class AuthController {
   async signup(req, res) {
@@ -89,7 +90,8 @@ class AuthController {
 
 
         } catch (error) {
-            console.error(error);
+           
+            logger.error(error);
             res.status(500).json({ status: false, message: "Unable to verify email, please try again later" });
         }
 
@@ -166,7 +168,7 @@ class AuthController {
         // Generate token for password reset
         const secret = user._id + process.env.JWT_SECRET_KEY;
         const tokenLink = jwt.sign({ userID: user._id }, secret, { expiresIn: '20m' });
-        console.log(tokenLink);
+        logger.info(tokenLink);
         // Reset Link and this link generate by frontend developer
         const resetLink = `${process.env.FRONTEND_HOST}/account/reset-password-confirm/${user._id}/${tokenLink}`;
         //console.log(resetLink);

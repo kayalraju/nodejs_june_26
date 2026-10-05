@@ -6,11 +6,18 @@ const path=require('path')
 const cors=require('cors')
 const cookieParser=require('cookie-parser')
 const session=require('express-session')
+const helmet=require('helmet')
+const morgan=require('morgan')
+const limiter=require('./src/utils/RateLimit')
+const logger=require('./src/utils/logger')
 const app=express();
 DBConnect()
 
 
 app.use(cors())
+app.use(helmet())
+app.use(morgan('dev'))
+app.use(limiter)
 //setup ejs
 app.set('view engine','ejs');
 app.set('views','views')
@@ -61,5 +68,5 @@ app.use(router)
 const Port=process.env.PORT || 3009
 
 app.listen(Port,()=>{
-    console.log(`server is running on port http://localhost:${Port}`)
+    logger.info(`server is running on port http://localhost:${Port}`)
 })

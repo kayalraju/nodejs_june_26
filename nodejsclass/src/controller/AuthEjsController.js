@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const logger = require("../utils/logger");
 class AuthEjsController {
 
       async CheckAuth(req, res, next) {
@@ -11,7 +12,7 @@ class AuthEjsController {
                 res.redirect('/login');
             }
         } catch (err) {
-            console.log(err)
+            logger.error(err);
         }
     }
   async register(req, res) {
@@ -20,7 +21,7 @@ class AuthEjsController {
         title: "register page",
       });
     } catch (error) {
-      console.log(error);
+      logger.error(error);
     }
   }
   async registercreate(req, res) {
@@ -32,18 +33,18 @@ class AuthEjsController {
         password: bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10)),
       });
       const result = await user.save();
-      console.log("data", result);
+      logger.info("data", result);
 
       if (result) {
-        console.log("register successfully");
+        logger.info("register successfully");
         res.redirect("/login");
       } else {
-        console.log("register failed");
+        logger.error("register failed");
 
         res.redirect("/register");
       }
     } catch (err) {
-      console.log(err);
+      logger.error(err);
     }
   }
   async login(req, res) {
@@ -52,7 +53,7 @@ class AuthEjsController {
         title: "login page",
       });
     } catch (error) {
-      console.log(error);
+      logger.error(error);
     }
   }
   async loginCreate(req, res) {
@@ -62,7 +63,7 @@ class AuthEjsController {
 
       // Validate user input
       if (!(email && password)) {
-        console.log("All input is required");
+        logger.info("All input is required");
         res.redirect("/login");
       }
       // Validate if user exist in our database
