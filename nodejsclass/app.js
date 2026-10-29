@@ -10,6 +10,10 @@ const helmet=require('helmet')
 const morgan=require('morgan')
 const limiter=require('./src/utils/RateLimit')
 const logger=require('./src/utils/logger')
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+const SwaggerOptions = require('./swagger.json');
+const swaggerDocument = swaggerJsDoc(SwaggerOptions);
 const app=express();
 DBConnect()
 
@@ -41,6 +45,8 @@ app.use(express.static('public'))
 
 app.use('/uploads',express.static(path.join(__dirname,'uploads')))
 app.use('/uploads',express.static('uploads')); 
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //define router
 

@@ -31,9 +31,9 @@ class StudentController {
         country: country,
       });
 
-      if (req.file) {
-        studentdata.image = req.file.path;
-      }
+      // if (req.file) {
+      //   studentdata.image = req.file.path;
+      // }
       const data = await studentdata.save();
       if (data) {
         return res.status(StatusCode.CREATED).json({
